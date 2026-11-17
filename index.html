@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="Nikita Visual Arts – nikitavisual.art">
+<meta name="creator" content="Nikita Visual Arts – nikitavisual.art">
+<meta name="theme-color" content="#E85D8A">
+<title>רשימת נוכחות – פיסול בבצק סוכר</title>
+<style>
+  :root{
+    --bg:#FFF7F0; --card:#FFFFFF; --ink:#2B2330; --muted:#8A7F90; --line:#F0E4DA;
+    --pink:#E85D8A; --pink-soft:#FDE7EF; --mint:#2FAF8F; --mint-soft:#DDF5EC;
+    --amber:#E39A1F; --amber-soft:#FFF0D2; --violet:#7B5CE0; --violet-soft:#ECE6FD;
+    --red:#D6455A; --radius:16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Heebo","Rubik","Assistant","Segoe UI",Arial,sans-serif;font-size:16px;line-height:1.35;padding-bottom:110px}
+  button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+  header.top{background:linear-gradient(135deg,#E85D8A,#F4A261);color:#fff;padding:14px 16px 16px;padding-top:max(14px,env(safe-area-inset-top))}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{height:38px;width:auto;border-radius:8px;background:#fff;padding:3px}
+  .brand img.hidden{display:none}
+  .brand h1{margin:0;font-size:19px;font-weight:800}
+  .brand small{display:block;opacity:.9;font-size:12px;margin-top:1px}
+  .wrap{max-width:640px;margin:0 auto;padding:0 12px}
+  .tabs{display:flex;gap:8px;margin:14px 0 10px}
+  .tab{flex:1;padding:10px 8px;border-radius:14px;background:var(--card);border:2px solid var(--line);font-weight:700;text-align:center}
+  .tab small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+  .tab.on{border-color:var(--pink);background:var(--pink-soft)}
+  .datebar{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:var(--radius);padding:8px;border:1px solid var(--line)}
+  .datebar .nav{width:44px;height:44px;border-radius:12px;background:var(--bg);font-size:20px;font-weight:800}
+  .datebar .mid{flex:1;text-align:center}
+  .datebar .mid b{display:block;font-size:17px}
+  .datebar .mid input{margin-top:2px;font:inherit;font-size:13px;border:0;background:none;color:var(--muted);text-align:center;width:100%}
+  .today{font-size:12px;color:var(--pink);font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 4px;text-align:center}
+  .stat b{display:block;font-size:20px}
+  .stat span{font-size:11px;color:var(--muted)}
+  .list{display:flex;flex-direction:column;gap:8px}
+  .kid{display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:var(--radius);padding:8px 10px 8px 8px;transition:.12s}
+  .kid.here{border-color:var(--mint);background:#F6FFFB}
+  .check{flex:none;width:48px;height:48px;border-radius:50%;border:3px solid #E2D6CC;background:#fff;display:grid;place-items:center;font-size:26px;color:#fff}
+  .kid.here .check{background:var(--mint);border-color:var(--mint)}
+  .kid.here .check::after{content:"✓"}
+  .who{flex:1;min-width:0;text-align:right}
+  .who .nm{font-weight:700;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .who .sub{font-size:12px;color:var(--muted);margin-top:2px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .badge{display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:700}
+  .b-trial{background:var(--pink-soft);color:var(--pink)}
+  .b-reg{background:var(--mint-soft);color:var(--mint)}
+  .b-late{background:var(--amber-soft);color:#A96C00}
+  .chip{flex:none;width:58px;padding:6px 2px;border-radius:12px;background:var(--bg);border:2px solid var(--line);font-size:11px;font-weight:700;line-height:1.15;text-align:center;color:var(--muted)}
+  .chip i{display:block;font-style:normal;font-size:20px;margin-bottom:1px;filter:grayscale(1);opacity:.55}
+  .chip.kit.on{background:var(--amber-soft);border-color:var(--amber);color:#9A6200}
+  .chip.neo.on{background:var(--violet-soft);border-color:var(--violet);color:var(--violet)}
+  .chip.on i{filter:none;opacity:1}
+  .empty{text-align:center;color:var(--muted);padding:30px 10px}
+  .fab{position:fixed;inset-inline-start:16px;bottom:max(18px,env(safe-area-inset-bottom));background:var(--pink);color:#fff;font-weight:800;padding:14px 20px;border-radius:999px;box-shadow:0 8px 20px rgba(232,93,138,.4);z-index:5;font-size:16px}
+  nav.bottom{position:fixed;inset-inline:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;z-index:4;padding-bottom:env(safe-area-inset-bottom)}
+  nav.bottom button{flex:1;padding:10px 0 8px;font-size:12px;font-weight:700;color:var(--muted)}
+  nav.bottom button.on{color:var(--pink)}
+  nav.bottom span{display:block;font-size:20px}
+  .fab{inset-inline-start:auto;inset-inline-end:16px;bottom:calc(70px + env(safe-area-inset-bottom))}
+  body{padding-bottom:150px}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin:22px 0 6px}
+  .foot b{color:var(--ink)}
+   
+  .scrim{position:fixed;inset:0;background:rgba(30,20,40,.45);z-index:10;display:none;align-items:flex-end;justify-content:center}
+  .scrim.open{display:flex}
+  .sheet{background:#fff;width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+  .sheet h2{margin:0 0 4px;font-size:20px}
+  .sheet p.hint{margin:0 0 12px;color:var(--muted);font-size:13px}
+  .sheet label.f{display:block;font-size:13px;font-weight:700;margin:10px 0 4px}
+  .sheet input[type=text],.sheet input[type=number]{width:100%;font:inherit;font-size:17px;padding:12px;border:2px solid var(--line);border-radius:12px;background:var(--bg)}
+  .sheet input:focus{outline:none;border-color:var(--pink)}
+  .opt{display:flex;align-items:center;gap:10px;padding:12px;border:2px solid var(--line);border-radius:12px;margin-top:10px;font-weight:600}
+  .opt input{width:22px;height:22px;accent-color:var(--pink)}
+  .opt small{display:block;color:var(--muted);font-weight:400}
+  .row{display:flex;gap:8px;margin-top:16px}
+  .btn{flex:1;padding:14px;border-radius:14px;font-weight:800;background:var(--bg);border:2px solid var(--line)}
+  .btn.pri{background:var(--pink);border-color:var(--pink);color:#fff}
+  .btn.danger{color:var(--red)}
+   
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px;margin-bottom:12px}
+  .card h3{margin:0 0 8px;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:7px 4px;text-align:right;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:12px}
+  td.c,th.c{text-align:center}
+  .tools{display:flex;flex-wrap:wrap;gap:8px}
+  .tools .btn{flex:1 1 140px;font-size:14px;padding:12px}
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:130px;background:#2B2330;color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;z-index:20;opacity:0;transition:.2s;pointer-events:none}
+  .toast.show{opacity:1}
+  .price{display:flex;align-items:center;gap:8px}
+  .price input{width:90px;font:inherit;padding:8px;border:2px solid var(--line);border-radius:10px;background:var(--bg)}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <img id="logo" class="hidden" alt="Nikita Visual Arts" src="assets/brand/logo-small.png" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')">
+      <div>
+        <h1>נוכחות · פיסול בבצק סוכר</h1>
+        <small>Nikita Visual Arts – nikitavisual.art</small>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tabs" id="tabs"></div>
+
+  
+  <section id="v-att">
+    <div class="datebar">
+      <button class="nav" id="prev" aria-label="יום קודם">›</button>
+      <div class="mid">
+        <b id="dlabel"></b>
+        <input type="date" id="dpick" aria-label="בחירת תאריך">
+      </div>
+      <button class="nav" id="next" aria-label="יום הבא">‹</button>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="list" id="list"></div>
+    <button class="btn pri" id="sendBtn" style="width:100%;margin-top:14px">📤 סיום שיעור – שלח לגיליון ולמייל</button>
+  </section>
+
+  
+  <section id="v-rep" hidden>
+    <div id="rep"></div>
+  </section>
+
+  <div class="foot">Nikita Visual Arts – <b>nikitavisual.art</b></div>
+</main>
+
+<button class="fab" id="addBtn">＋ תלמיד חדש</button>
+
+<nav class="bottom">
+  <button id="nAtt" class="on"><span>✅</span>נוכחות</button>
+  <button id="nRep"><span>📊</span>דוח וגיבוי</button>
+</nav>
+
+<div class="scrim" id="scrim">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <h2>תלמיד חדש</h2>
+    <p class="hint" id="addHint"></p>
+    <label class="f" for="fFirst">שם פרטי</label>
+    <input type="text" id="fFirst" autocomplete="off">
+    <label class="f" for="fLast">שם משפחה (לא חובה)</label>
+    <input type="text" id="fLast" autocomplete="off">
+    <label class="opt"><input type="checkbox" id="fTrial" checked><span>שיעור ניסיון<small>תלמיד חדש מסומן כברירת מחדל כשיעור ניסיון</small></span></label>
+    <label class="opt"><input type="checkbox" id="fKit"><span>קיבל ערכת עבודה</span></label>
+    <div class="row">
+      <button class="btn" id="fCancel">ביטול</button>
+      <button class="btn pri" id="fSave">הוסף וסמן כהגיע</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="text/plain" id="appCode">
+ 
+(function(){
+"use strict";
+
+var SEED = window.__SEED || [];
+var KEY = "attendance-sugarpaste-v1";
+var DEFAULT_PRICE = 75;
+
+ 
+var mem = null;
+function load(){
+  try{ var r = localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){}
+  return mem;
+}
+function save(){
+  mem = S;
+  try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
+}
+function freshState(){
+  var kids = [];
+  SEED.forEach(function(s){
+    s.kids.forEach(function(k){
+      kids.push({id:k.id, school:s.id, first:k.first, last:k.last, from:k.from, isNew:false, trial:false, kitDate:null});
+    });
+  });
+  return {v:1, kids:kids, att:{}, neo:{}, price:DEFAULT_PRICE};
+}
+var S = load() || freshState();
+var DEFAULT_URL = "https://script.google.com/macros/s/AKfycbwq6eACnixxxjr87lvzroGkYfXFMH1065S2TZjO8pDbYOiv4fhvv01BMhoKjd_cU3Gurw/exec";
+var DEFAULT_SECRET = window.__K || "";
+if(!S.cfgUrl || S.cfgUrl === "https://script.google.com/macros/s/AKfycbyjZS4m9d2ilVijxAQV1WAOh_BxZGtivfBfsPSBI2ZvrmGLd6y_cqDyYdq35sJTPC6Exw/exec") S.cfgUrl = DEFAULT_URL;
+if(DEFAULT_SECRET) S.cfgSecret = DEFAULT_SECRET;
+if(!S.att) S.att = {}; if(!S.neo) S.neo = {}; if(!S.price) S.price = DEFAULT_PRICE;
+
+ 
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+function pad(n){ return (n<10?"0":"")+n; }
+function iso(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+function parse(s){ var p=s.split("-"); return new Date(+p[0],+p[1]-1,+p[2]); }
+function dmy(s){ var p=s.split("-"); return p[2]+"/"+p[1]+"/"+p[0]; }
+function dm(s){ var p=s.split("-"); return p[2]+"/"+p[1]; }
+function toast(t){ var e=$("toast"); e.textContent=t; e.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(function(){e.classList.remove("show");},1800); }
+function schoolName(id){ for(var i=0;i<SEED.length;i++) if(SEED[i].id===id) return SEED[i].name; return id; }
+function kidsOf(sch){
+  return S.kids.filter(function(k){return k.school===sch;}).sort(function(a,b){
+    return (a.first+" "+a.last).localeCompare(b.first+" "+b.last,"he");
+  });
+}
+function key(date,sch){ return date+"|"+sch; }
+function isHere(date,sch,id){ var m=S.att[key(date,sch)]; return !!(m && m[id]); }
+function setHere(date,sch,id,v){
+  var k=key(date,sch); S.att[k]=S.att[k]||{};
+  if(v) S.att[k][id]=1; else delete S.att[k][id];
+}
+function isNeo(date,id){ var m=S.neo[date]; return !!(m && m[id]); }
+function setNeo(date,id,v){ S.neo[date]=S.neo[date]||{}; if(v) S.neo[date][id]=1; else delete S.neo[date][id]; }
+function neoCount(id){ var n=0; for(var d in S.neo) if(S.neo[d][id]) n++; return n; }
+
+var cur = {school:SEED[0].id, date:iso(new Date()), view:"att"};
+
+ 
+function renderTabs(){
+  $("tabs").innerHTML = SEED.map(function(s){
+    var n = kidsOf(s.id).length;
+    return '<button class="tab'+(s.id===cur.school?' on':'')+'" data-school="'+s.id+'">'+esc(s.name)+'<small>'+n+' תלמידים<\/small><\/button>';
+  }).join("");
+}
+function renderDate(){
+  var d = parse(cur.date);
+  var lbl = d.toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long"});
+  var isToday = cur.date===iso(new Date());
+  $("dlabel").innerHTML = esc(lbl) + (isToday?' <span class="today">· היום<\/span>':'');
+  $("dpick").value = cur.date;
+}
+function renderStats(list){
+  var here=0,trial=0,kits=0,neo=0;
+  list.forEach(function(k){
+    if(isHere(cur.date,cur.school,k.id)){ here++; if(k.isNew && k.trial) trial++; }
+    if(k.kitDate) kits++;
+    if(isNeo(cur.date,k.id)) neo++;
+  });
+  $("stats").innerHTML =
+    '<div class="stat"><b>'+here+'/'+list.length+'<\/b><span>הגיעו<\/span><\/div>'+
+    '<div class="stat"><b>'+trial+'<\/b><span>שיעורי ניסיון<\/span><\/div>'+
+    '<div class="stat"><b>'+kits+'/'+list.length+'<\/b><span>קיבלו ערכה<\/span><\/div>'+
+    '<div class="stat"><b>'+neo+'<\/b><span>ערכות חדשות<\/span><\/div>';
+}
+function renderList(){
+  var list = kidsOf(cur.school);
+  renderStats(list);
+  if(!list.length){ $("list").innerHTML='<div class="empty">אין תלמידים ברשימה<\/div>'; return; }
+  $("list").innerHTML = list.map(function(k){
+    var here = isHere(cur.date,cur.school,k.id);
+    var neo = isNeo(cur.date,k.id);
+    var sub = "";
+    if(k.isNew){
+      sub += '<button class="badge '+(k.trial?'b-trial':'b-reg')+'" data-act="trial" data-id="'+k.id+'">חדש · '+(k.trial?'שיעור ניסיון':'נרשם')+'<\/button>';
+    } else if(k.from > cur.date){
+      sub += '<span class="badge b-late">נרשם ב-'+dm(k.from)+'<\/span>';
+    } else if(k.from > addDays(cur.date,-8)){
+      sub += '<span class="badge b-late">הצטרף ב-'+dm(k.from)+'<\/span>';
+    }
+    if(k.kitDate) sub += '<span>ערכה מ-'+dm(k.kitDate)+'<\/span>';
+    var nc = neoCount(k.id);
+    if(nc) sub += '<span>נמכרו '+nc+' ערכות חדשות<\/span>';
+    if(k.isNew) sub += '<button class="badge" style="background:#eee;color:#777" data-act="del" data-id="'+k.id+'">הסר<\/button>';
+    return '<div class="kid'+(here?' here':'')+'" data-id="'+k.id+'">'+
+      '<button class="check" data-act="here" data-id="'+k.id+'" aria-label="הגיע"><\/button>'+
+      '<div class="who" data-act="here" data-id="'+k.id+'"><div class="nm">'+esc(k.first+" "+k.last)+'<\/div><div class="sub">'+sub+'<\/div><\/div>'+
+      '<button class="chip kit'+(k.kitDate?' on':'')+'" data-act="kit" data-id="'+k.id+'"><i>🎁<\/i>קיבל ערכה<\/button>'+
+      '<button class="chip neo'+(neo?' on':'')+'" data-act="neo" data-id="'+k.id+'"><i>🔄<\/i>אבדה – נמכרה חדשה<\/button>'+
+    '<\/div>';
+  }).join("");
+}
+function addDays(s,n){ var d=parse(s); d.setDate(d.getDate()+n); return iso(d); }
+
+ 
+function lessonDates(sch){
+  var out=[];
+  for(var k in S.att){
+    var p=k.split("|");
+    if(p[1]===sch && Object.keys(S.att[k]).length) out.push(p[0]);
+  }
+  return out.sort();
+}
+function renderReport(){
+  var html = "";
+  SEED.forEach(function(s){
+    var kids = kidsOf(s.id), dates = lessonDates(s.id);
+    var totalNeo = 0;
+    var rows = kids.map(function(k){
+      var att = dates.filter(function(d){return isHere(d,s.id,k.id);}).length;
+      var nc = neoCount(k.id); totalNeo += nc;
+      var st = k.isNew ? (k.trial?"ניסיון":"חדש") : "";
+      return '<tr><td>'+esc(k.first+" "+k.last)+(st?' <span class="badge '+(k.trial?'b-trial':'b-reg')+'">'+st+'<\/span>':'')+'<\/td>'+
+        '<td class="c">'+att+'/'+dates.length+'<\/td>'+
+        '<td class="c">'+(k.kitDate?'✓ '+dm(k.kitDate):'—')+'<\/td>'+
+        '<td class="c">'+(nc||'—')+'<\/td><\/tr>';
+    }).join("");
+    html += '<div class="card"><h3>'+esc(s.name)+' · '+dates.length+' שיעורים נרשמו<\/h3>'+
+      '<table><thead><tr><th>תלמיד<\/th><th class="c">נוכחות<\/th><th class="c">ערכה<\/th><th class="c">ערכות חדשות<\/th><\/tr><\/thead><tbody>'+rows+'<\/tbody><\/table>'+
+      '<p style="margin:8px 0 0;font-size:13px;color:var(--muted)">ערכות חדשות שנמכרו: <b style="color:var(--ink)">'+totalNeo+'<\/b> · סה״כ <b style="color:var(--ink)">'+(totalNeo*S.price)+' ₪<\/b><\/p><\/div>';
+  });
+  html += '<div class="card"><h3>מחיר ערכה חדשה<\/h3><div class="price"><input type="number" id="priceIn" min="0" value="'+S.price+'" inputmode="numeric"><span>₪<\/span><\/div><\/div>';
+  html += '<div class="card"><h3>חיבור לגיליון ולמייל<\/h3>'+
+    '<label class="f" style="display:block;font-size:13px;font-weight:700;margin:4px 0">כתובת ה-Web App<\/label>'+
+    '<input type="text" id="cfgUrl" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec" value="'+esc(S.cfgUrl||"")+'" style="width:100%;font:inherit;font-size:14px;padding:10px;border:2px solid var(--line);border-radius:10px;background:var(--bg)">'+
+    '<label class="f" style="display:block;font-size:13px;font-weight:700;margin:10px 0 4px">סיסמה<\/label>'+
+    '<input type="text" id="cfgSecret" dir="ltr" value="'+esc(S.cfgSecret||"")+'" style="width:100%;font:inherit;font-size:14px;padding:10px;border:2px solid var(--line);border-radius:10px;background:var(--bg)">'+
+    '<p style="margin:8px 0 0;font-size:12px;color:var(--muted)">מגדירים פעם אחת. אחר כך הכפתור "סיום שיעור" בעמוד הנוכחות שולח את השיעור שנבחר.<\/p><\/div>';
+  html += '<div class="card"><h3>שיתוף וגיבוי<\/h3><div class="tools">'+
+    '<button class="btn" data-tool="copy">📋 העתק סיכום לשיעור<\/button>'+
+    '<button class="btn" data-tool="csv">⬇️ הורד אקסל (CSV)<\/button>'+
+    '<button class="btn" data-tool="export">💾 גיבוי לקובץ<\/button>'+
+    '<button class="btn" data-tool="import">📂 שחזור מגיבוי<\/button>'+
+    '<\/div><p style="margin:10px 0 0;font-size:12px;color:var(--muted)">הנתונים נשמרים במכשיר ובדפדפן הזה בלבד. מומלץ לעשות גיבוי מדי פעם.<\/p>'+
+    '<input type="file" id="imp" accept="application/json" hidden><\/div>';
+  $("rep").innerHTML = html;
+}
+
+ 
+function find(id){ for(var i=0;i<S.kids.length;i++) if(S.kids[i].id===id) return S.kids[i]; return null; }
+var delArm = null;
+document.addEventListener("click",function(e){
+  var t = e.target.closest("[data-act],[data-school],[data-tool]");
+  if(!t) return;
+  if(t.dataset.school){ cur.school=t.dataset.school; renderTabs(); renderList(); return; }
+  if(t.dataset.tool){ tool(t.dataset.tool); return; }
+  var k = find(t.dataset.id); if(!k) return;
+  var a = t.dataset.act;
+  if(a==="here"){ setHere(cur.date,cur.school,k.id,!isHere(cur.date,cur.school,k.id)); }
+  else if(a==="kit"){ k.kitDate = k.kitDate ? null : cur.date; }
+  else if(a==="neo"){
+    var v = !isNeo(cur.date,k.id); setNeo(cur.date,k.id,v);
+    if(v){ setHere(cur.date,cur.school,k.id,true); if(!k.kitDate) k.kitDate=cur.date; toast("נמכרה ערכה חדשה ל"+k.first+" · "+S.price+" ₪"); }
+  }
+  else if(a==="trial"){ k.trial=!k.trial; }
+  else if(a==="del"){
+    if(delArm===k.id){
+      S.kids = S.kids.filter(function(x){return x.id!==k.id;});
+      for(var d in S.neo) delete S.neo[d][k.id];
+      for(var kk in S.att) delete S.att[kk][k.id];
+      delArm=null; toast("התלמיד הוסר");
+    } else { delArm=k.id; t.textContent="בטוח? לחצי שוב"; t.style.color="#D6455A"; return; }
+  }
+  save(); renderTabs(); renderList();
+});
+
+$("prev").onclick=function(){ cur.date=addDays(cur.date,-1); renderDate(); renderList(); };
+$("next").onclick=function(){ cur.date=addDays(cur.date,1); renderDate(); renderList(); };
+$("dpick").onchange=function(){ if(this.value){ cur.date=this.value; renderDate(); renderList(); } };
+
+function setView(v){
+  cur.view=v;
+  $("v-att").hidden = v!=="att"; $("v-rep").hidden = v!=="rep";
+  $("addBtn").hidden = v!=="att"; $("tabs").hidden = v!=="att";
+  $("nAtt").classList.toggle("on",v==="att"); $("nRep").classList.toggle("on",v==="rep");
+  if(v==="rep") renderReport();
+  window.scrollTo(0,0);
+}
+$("nAtt").onclick=function(){setView("att");};
+$("nRep").onclick=function(){setView("rep");};
+
+ 
+function openAdd(){
+  $("addHint").textContent = schoolName(cur.school)+" · יסומן כהגיע בתאריך "+dmy(cur.date);
+  $("fFirst").value=""; $("fLast").value=""; $("fTrial").checked=true; $("fKit").checked=false;
+  $("scrim").classList.add("open"); setTimeout(function(){$("fFirst").focus();},50);
+}
+function closeAdd(){ $("scrim").classList.remove("open"); }
+$("addBtn").onclick=openAdd;
+$("fCancel").onclick=closeAdd;
+$("scrim").addEventListener("click",function(e){ if(e.target===this) closeAdd(); });
+$("fSave").onclick=function(){
+  var f=$("fFirst").value.trim(), l=$("fLast").value.trim();
+  if(!f){ $("fFirst").focus(); return; }
+  var id="n"+Date.now();
+  S.kids.push({id:id, school:cur.school, first:f, last:l, from:cur.date, isNew:true, trial:$("fTrial").checked, kitDate:$("fKit").checked?cur.date:null});
+  setHere(cur.date,cur.school,id,true);
+  save(); closeAdd(); renderTabs(); renderList();
+  toast(f+" נוסף/ה"+($("fTrial").checked?" – שיעור ניסיון":""));
+};
+
+ 
+function sendLesson(){
+  if(!S.cfgUrl || !S.cfgSecret){ toast("קודם להגדיר חיבור במסך דוח וגיבוי"); return; }
+  var list = kidsOf(cur.school);
+  var payload = {
+    secret:S.cfgSecret, school:schoolName(cur.school), dateText:dmy(cur.date), summary:summaryText(),
+    rows:list.map(function(k){
+      return {name:(k.first+" "+k.last).trim(), present:isHere(cur.date,cur.school,k.id),
+        status:k.isNew?(k.trial?"חדש - שיעור ניסיון":"חדש - נרשם"):"", kitDate:k.kitDate?dmy(k.kitDate):"",
+        newKit:isNeo(cur.date,k.id), price:S.price};
+    })
+  };
+  var btn=$("sendBtn"); btn.disabled=true; btn.textContent="שולח...";
+  function done(){ btn.disabled=false; btn.textContent="📤 סיום שיעור – שלח לגיליון ולמייל"; }
+  function report(j){ toast(j && j.ok ? "נשלח לגיליון ולמייל ✓" : "השרת החזיר שגיאה: "+((j&&j.error)||"")); done(); }
+  if(window.google && google.script && google.script.run){
+    google.script.run.withSuccessHandler(report)
+      .withFailureHandler(function(err){ toast("שגיאה בשליחה: "+(err&&err.message||err)); done(); })
+      .receive(JSON.stringify(payload));
+    return;
+  }
+  fetch(S.cfgUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)})
+    .then(function(r){return r.json();})
+    .then(report)
+    .catch(function(){
+      return fetch(S.cfgUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)})
+        .then(function(){ toast("נשלח, אך לא ניתן היה לאמת – בדקי בגיליון"); done(); })
+        .catch(function(){ toast("השליחה נחסמה – פתחי את האתר מהכתובת של Apps Script"); done(); });
+    });
+}
+$("sendBtn").onclick=sendLesson;
+
+ 
+function summaryText(){
+  var s = schoolName(cur.school), list = kidsOf(cur.school);
+  var here = list.filter(function(k){return isHere(cur.date,cur.school,k.id);});
+  var absent = list.filter(function(k){return !isHere(cur.date,cur.school,k.id);});
+  var trials = here.filter(function(k){return k.isNew && k.trial;});
+  var neo = list.filter(function(k){return isNeo(cur.date,k.id);});
+  var nm = function(k){return (k.first+" "+k.last).trim();};
+  var t = "נוכחות – חוג פיסול בבצק סוכר – "+s+" – "+dmy(cur.date)+"\n";
+  t += "הגיעו "+here.length+" מתוך "+list.length+"\n";
+  if(here.length) t += "הגיעו: "+here.map(nm).join(", ")+"\n";
+  if(absent.length) t += "לא הגיעו: "+absent.map(nm).join(", ")+"\n";
+  if(trials.length) t += "שיעור ניסיון: "+trials.map(nm).join(", ")+"\n";
+  if(neo.length) t += "ערכות חדשות שנמכרו ("+S.price+" ₪): "+neo.map(nm).join(", ")+" – סה״כ "+(neo.length*S.price)+" ₪\n";
+  return t.trim();
+}
+function download(name,text,mime){
+  var b=new Blob([text],{type:mime}), a=document.createElement("a");
+  a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href); a.remove();},500);
+}
+function csvCell(v){ v=String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function tool(n){
+  if(n==="copy"){
+    var t=summaryText();
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){toast("הסיכום הועתק");},function(){fallbackCopy(t);});
+    } else fallbackCopy(t);
+  }
+  else if(n==="csv"){
+    var out=[];
+    SEED.forEach(function(s){
+      var dates=lessonDates(s.id);
+      out.push(["בית ספר","שם פרטי","שם משפחה","סטטוס","ערכה (תאריך)","ערכות חדשות"].concat(dates.map(dmy)).map(csvCell).join(","));
+      kidsOf(s.id).forEach(function(k){
+        out.push([s.name,k.first,k.last,k.isNew?(k.trial?"חדש - ניסיון":"חדש - נרשם"):"",k.kitDate?dmy(k.kitDate):"",neoCount(k.id)]
+          .concat(dates.map(function(d){return isHere(d,s.id,k.id)?"הגיע":"";})).map(csvCell).join(","));
+      });
+      out.push("");
+    });
+    download("attendance.csv","﻿"+out.join("\r\n"),"text/csv;charset=utf-8");
+  }
+  else if(n==="export"){ download("attendance-backup-"+iso(new Date())+".json",JSON.stringify(S),"application/json"); }
+  else if(n==="import"){ $("imp").click(); }
+}
+function fallbackCopy(t){
+  var a=document.createElement("textarea"); a.value=t; document.body.appendChild(a); a.select();
+  try{ document.execCommand("copy"); toast("הסיכום הועתק"); }catch(e){ toast("לא הצלחתי להעתיק"); }
+  a.remove();
+}
+document.addEventListener("change",function(e){
+  if(e.target.id==="cfgUrl"){ S.cfgUrl=e.target.value.trim(); save(); }
+  if(e.target.id==="cfgSecret"){ S.cfgSecret=e.target.value.trim(); save(); }
+  if(e.target.id==="priceIn"){ S.price=Math.max(0,+e.target.value||0); save(); renderReport(); }
+  if(e.target.id==="imp" && e.target.files[0]){
+    var r=new FileReader();
+    r.onload=function(){
+      try{ var d=JSON.parse(r.result); if(!d.kids||!d.att) throw 0; S=d; if(!S.neo) S.neo={}; if(!S.price) S.price=DEFAULT_PRICE; save(); renderTabs(); renderReport(); toast("הגיבוי שוחזר"); }
+      catch(x){ toast("קובץ גיבוי לא תקין"); }
+    };
+    r.readAsText(e.target.files[0]);
+  }
+});
+
+ 
+renderTabs(); renderDate(); renderList();
+})();
+</script>
+<script>
+(function(){
+  var KS = "attendance-sugarpaste-k";
+  var k = new URLSearchParams(location.search).get("k");
+  try{ if(k) localStorage.setItem(KS, k); else k = localStorage.getItem(KS); }catch(e){}
+  var box = document.getElementById("toast");
+  function fail(msg){ document.body.insertAdjacentHTML("afterbegin",
+    '<div style="padding:24px;font:18px system-ui;text-align:center;background:#fff3f3;color:#7a1f1f">'+msg+'</div>'); }
+  if(!k){ fail("חסרה סיסמה בקישור. יש לפתוח את הקישור המלא (…?k=…)."); return; }
+  fetch("https://script.google.com/macros/s/AKfycbwq6eACnixxxjr87lvzroGkYfXFMH1065S2TZjO8pDbYOiv4fhvv01BMhoKjd_cU3Gurw/exec?action=seed&k=" + encodeURIComponent(k), {credentials:"omit"})
+    .then(function(r){ return r.text(); })
+    .then(function(t){
+      var j = null; try{ j = JSON.parse(t); }catch(e){}
+      if(!j || !j.ok){ fail("הסיסמה בקישור לא נכונה."); return; }
+      window.__SEED = j.seed; window.__K = k;
+      var s = document.createElement("script");
+      s.text = document.getElementById("appCode").textContent.replace(/<\\\//g, "</");
+      document.body.appendChild(s);
+    })
+    .catch(function(){ fail("אין חיבור לשרת. בדקו אינטרנט ונסו שוב."); });
+})();
+</script>
+</body>
+</html>
